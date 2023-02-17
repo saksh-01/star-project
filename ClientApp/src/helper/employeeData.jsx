@@ -1,0 +1,68 @@
+export const EmployeeCurrentData = [
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+];
+export const EmployeePreviousData = [
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+  {
+    managerName: "ABC",
+    managerID: "#123456",
+    projectName: "CBA",
+    projectID: "#123456",
+    hours: "45",
+    stat: "InDraft",
+  },
+];
