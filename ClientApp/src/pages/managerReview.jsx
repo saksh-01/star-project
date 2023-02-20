@@ -40,13 +40,13 @@ const ManagerReview = () => {
         </ul>
       </div>
       <div
-        class="d-flex mx-auto justify-content-between"
+        className="d-flex mx-auto justify-content-between"
         style={{ width: "15%" }}
       >
-        <button class="btn btn-primary" type="button">
+        <button className="btn btn-primary" type="button">
           correct
         </button>
-        <button class="btn btn-primary" type="button">
+        <button className="btn btn-primary" type="button">
           incorrect
         </button>
       </div>

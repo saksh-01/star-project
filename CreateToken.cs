@@ -1,26 +1,26 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using ReactNew.Models;
+﻿using ReactNew.Models;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace ReactNew
 {
-    public class JWTToken
+    public class CreateToken
     {
         private IConfiguration _configuration;
 
-        public JWTToken(IConfiguration configuration)
+        public CreateToken(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public string CreateToken(UserPass user)
+        public string GetToken(UserPass user)
         {
             List<Claim> claims = new List<Claim>() { new Claim(ClaimTypes.Name, user.email) };
             var key = new SymmetricSecurityKey(
                 System.Text.Encoding.UTF8.GetBytes(
                     _configuration.GetSection("AppSettings:Token").Value
-                        ?? "this is my custom Secret key for authentication"
+                        ?? "this is some security string"
                 )
             );
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

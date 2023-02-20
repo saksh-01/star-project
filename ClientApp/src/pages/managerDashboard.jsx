@@ -37,11 +37,9 @@ const Dashboard = () => {
           aria-describedby="basic-addon1"
         />
       </div>
-      <p className="lead d-none d-sm-block">
-        Employee Details and Current Requests
-      </p>
+      <p className="lead d-none d-sm-block">Requests</p>
 
-      <div
+      {/* <div
         className="alert alert-warning fade collapse"
         role="alert"
         id="myAlert"
@@ -56,21 +54,38 @@ const Dashboard = () => {
           <span className="sr-only">Close</span>
         </button>
         <strong>Data and Records</strong> Learn more about employee
-      </div>
-      {/* <Link to ='/managerReview'> */}
+      </div> */}
+      {/* <Link to ='/review'> */}
 
       <div className="row mb-3">
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
+          <div className="card  h-100">
+            <div className="card-body">
+              <a
+                href="/review"
+                style={{ textDecoration: "none", color: "black" }}
               >
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
+                <p>Location</p>
+                <h1 className="display-4"></h1>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 py-2">
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
+                <div className="rotate">
+                  <i className="fa fa-user fa-4x"></i>
+                </div>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>
@@ -78,16 +93,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>
@@ -95,16 +110,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>
@@ -112,16 +127,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>
@@ -129,16 +144,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>
@@ -146,16 +161,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>
@@ -163,33 +178,16 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
+          <div className="card text-white h-100">
+            <a
+              href="/review"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <div className="card-body">
                 <div className="rotate">
                   <i className="fa fa-user fa-4x"></i>
                 </div>
-                <h6 className="text-uppercase">Employee</h6>
-                <p>Location</p>
-                <h1 className="display-4"></h1>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div className="col-xl-3 col-sm-6 py-2">
-          <div className="card bg-success text-white h-100">
-            <a href="/managerReview">
-              <div
-                className="card-body bg-success"
-                style={{ backgroundColor: "#57b960" }}
-              >
-                <div className="rotate">
-                  <i className="fa fa-user fa-4x"></i>
-                </div>
-                <h6 className="text-uppercase">Employee</h6>
+                <h6>Employee</h6>
                 <p>Location</p>
                 <h1 className="display-4"></h1>
               </div>

@@ -1,5 +1,5 @@
 ﻿using System.Data.SqlClient;
-using ReactNew.model;
+using ReactNew.Models;
 
 namespace ReactNew.Database
 {
@@ -7,9 +7,13 @@ namespace ReactNew.Database
     {
         public UserInfoDatabase? GetUser(UserPass user)
         {
+            //P1-1DS2MQ3-L (CapstoneProject)
+            //43.204.27.26
+            //P2T4CapstoneProject
+            //
             Console.WriteLine(user);
             string serverConnection =
-                "server=P1-1DS2MQ3-L;Database=CapstoneProject; Integrated security=true";
+                "server=43.204.27.26;Database=P2T4CapstoneProject;User ID=sa;Password=Incedo@1234;Encrypt=false;";
             SqlConnection scon = new SqlConnection();
             scon.ConnectionString = serverConnection;
             scon.Open();
@@ -22,7 +26,7 @@ namespace ReactNew.Database
             {
                 UserInfoDatabase UserDatabase = new UserInfoDatabase()
                 {
-                    UserId = reader.GetInt32(0),
+                    Id = reader.GetInt32(0),
                     Email = reader.GetString(1),
                     Password = reader.GetString(2)
                 };

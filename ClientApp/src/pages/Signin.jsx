@@ -3,8 +3,13 @@ import Element from "../helper/element";
 import { userEmailSchema, userPasswordSchema } from "../helper/userValidation";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { logout, setAuthToken } from "../auth/auth";
+import "./custom.css";
+
 const Login = () => {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
+
+  const out = logout();
 
   const [registration, setRegistration] = useState({
     email: "",
@@ -12,34 +17,9 @@ const Login = () => {
   });
 
   const handleChange = (props) => (e) => {
-    // const name = e.target.name;
     const value = e.target.value;
     setRegistration({ ...registration, [props]: value });
   };
-
-  // (() => {
-  //   // "use strict";
-
-  //   // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  // const forms = document.querySelectorAll(".needs-validation");
-
-  //   console.log(forms);
-  //   // Loop over them and prevent submission
-  // Array.from(forms).forEach((form) => {
-  //   form.addEventListener(
-  //     "submit",
-  //     (event) => {
-  //       if (!form.checkValidity()) {
-  //         event.preventDefault();
-  //         event.stopPropagation();
-  //       }
-
-  //       form.classList.add("was-validated");
-  //     },
-  //     false
-  //   );
-  // });
-  // })();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,40 +35,21 @@ const Login = () => {
 
     if (validEmail && validPassword) {
       await axios
-        .post("https://localhost:7101/api/login", {
+        .post("https://localhost:7101/api/userlogin", {
           email: registration.email,
           password: registration.password,
         })
         .then((res) => {
           console.log(res);
           console.log("success");
-          console.log(res.status === 200);
-          // if (res.status === 200) {
-          // () => {
-          //   navigate(1);
-          // };
-          // }
-          // if (res.data.message === "success") {
-          //   console.log(res);
+          const token = res.data.token;
 
-          //   // authenticate(res, () => {
-          //   //   isAuth()
-          //   //     ? history.push({
-          //   //         pathname: `/userInfo/${res.data.user._id}`,
-          //   //         params: {
-          //   //           fault: true,
-          //   //         },
-          //   //       })
-          //   //     : console.log("enter corret detail")
-          //   // updateSnack("Enter correct detail", "error");
-          //   // });
-          // } else if (res.data.message === "not found") {
-          //   console.log("user not found");
-          //   // updateSnack("User not found, Singup please", "info");
-          // } else {
-          //   console.log("incorret pass");
-          //   // updateSnack("Incorrect password", "error");
-          // }
+          //set JWT token to local
+          localStorage.setItem("token", token);
+
+          //set token to axios common header
+          setAuthToken(token);
+          navigate("/employee");
         })
         .catch((err) => {
           console.log(err);
@@ -103,13 +64,79 @@ const Login = () => {
     }
   };
 
-  // const myStyle = {
-  //   ".was-validated .custom-select:valid ": {
-  //     backgroundImage: "none",
-  //   },
-  // };
   return (
-    <div className="position-fixed h-100 w-100 d-flex row">
+    <div
+      className="position-fixed h-100 w-100 "
+      style={{ background: "#20262E" }}
+    >
+      <div class="row row-cols-1 row-cols-md-2 h-75 mx-auto mt-5 p-0">
+        <div className="sidelogo ps-3">
+          <img
+            src={Element.incedoLogoBG}
+            alt="incedo"
+            style={{
+              backgroundColor: "transparent",
+              width: "100%",
+            }}
+          />
+          <h6 className="tagline">WHERE INNOVATION PROPELS</h6>
+        </div>
+
+        <div class="col card p-5 rounded-pill cardStyle">
+          <div className="form-card">
+            <h1 style={{ color: "#EE4714" }}>SignIn</h1>
+            <p>Enter your credentials to access your account</p>
+            <form
+              className="row needs-validation"
+              noValidate
+              onSubmit={handleSubmit}
+            >
+              <div className="">
+                <label htmlFor="validationCustom01" className="form-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="User email"
+                  className="form-control"
+                  id="validationCustom01"
+                  value={registration.email}
+                  onChange={handleChange("email")}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+              <div className="mt-3 mb-3">
+                <label htmlFor="validationCustom02" className="form-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="validationCustom02"
+                  value={registration.password}
+                  onChange={handleChange("password")}
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <div className="">
+                <button className="btn btn-primary" type="submit">
+                  SignIn
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+
+{
+  /* <div className="position-fixed h-100 w-100 d-flex row">
       <div className="bg-primary col-7">
         <img src={Element.empimg} alt="side" />
       </div>
@@ -141,10 +168,9 @@ const Login = () => {
               id="validationCustom01"
               value={registration.email}
               onChange={handleChange("email")}
+              autoComplete="off"
               required
-              // style={myStyle}
             />
-            {/* <div className="valid-feedback">Looks good!</div> */}
           </div>
           <div className="mt-3 mb-3">
             <label htmlFor="validationCustom02" className="form-label">
@@ -159,7 +185,6 @@ const Login = () => {
               placeholder="Password"
               required
             />
-            {/* <div className="valid-feedback">Looks good!</div> */}
           </div>
           <div className="">
             <button className="btn btn-primary" type="submit">
@@ -168,8 +193,5 @@ const Login = () => {
           </div>
         </form>
       </div>
-    </div>
-  );
-};
-
-export default Login;
+    </div> */
+}

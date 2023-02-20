@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
-using ReactNew;
 using ReactNew.Database;
-using ReactNew.model;
+using ReactNew.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace reactnew.Controllers
+namespace ReactNew.Controllers
 {
-    [ApiController]
-    [Route("api/login")]
+    [Route("api/[controller]")]
+    [ApiController, AllowAnonymous]
     public class UserLoginController : ControllerBase
     {
         private readonly ILogger<UserLoginController> _logger;
@@ -44,8 +44,8 @@ namespace reactnew.Controllers
                     Message = "Password is wrong"
                 };
             }
-            JWTToken jwtToken = new JWTToken(_configure);
-            var Token = jwtToken.CreateToken(userInfo);
+            CreateToken jwtToken = new CreateToken(_configure);
+            var Token = jwtToken.GetToken(userInfo);
             return new LoginResponse()
             {
                 success = true,
@@ -54,4 +54,30 @@ namespace reactnew.Controllers
             };
         }
     }
+
+    // [ApiController, Authorize]
+    // [Route("api/getName")]
+    // public class GetName
+    // {
+    //     public IHttpContextAccessor _httpContextAccessor;
+
+    //     public GetName(IHttpContextAccessor _httpContext)
+    //     {
+    //         _httpContextAccessor = _httpContext;
+    //     }
+
+    //     [HttpGet]
+    //     public string GetEmail()
+    //     {
+    //         // Dictionary<string, string> dict = new Dictionary<string, string>();
+    //         GetEmailFromRequest getEmail = new GetEmailFromRequest();
+    //         var email = getEmail.GetEmail(_httpContextAccessor.HttpContext);
+    //         //var email = "shivammandloi1102@gamil.com";
+    //         // Console.WriteLine(email, "Email name");
+    //         // dict.Add("shivam", "mandloi");
+    //         // dict.Add("King", "Kohli");
+    //         // return dict;
+    //         return null;
+    //     }
+    // }
 }

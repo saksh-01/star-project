@@ -1,4 +1,4 @@
-﻿namespace ReactNew.model
+﻿namespace ReactNew.Models
 {
     public class LoginResponse
     {

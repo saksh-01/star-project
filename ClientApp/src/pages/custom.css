@@ -1,0 +1,38 @@
+.cardStyle {
+  position: relative;
+  top: -25rem;
+  left: 37rem;
+  padding: 0;
+  z-index: 5;
+  width: 45%;
+  width: 80rem;
+  height: 57rem;
+}
+
+.cd {
+  /* border-radius: 5rem; */
+  border-radius: 8rem 5rem 1rem 1rem;
+  border: none;
+  background: #00aa57;
+}
+
+.form-card {
+  position: relative;
+  top: 16rem;
+  width: 35%;
+  left: 5rem;
+}
+
+.tagline {
+  font-size: 1.4rem;
+  color: white;
+  text-align: right;
+  padding-right: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.sidelogo {
+  position: relative;
+  top: 30%;
+  width: 45%;
+}
