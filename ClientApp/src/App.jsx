@@ -1,29 +1,35 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import RequireAuth from "./helper/requireAuth";
 import "./custom.css";
+import { setAuthToken } from "./auth/auth";
 
-export default class App extends Component {
-  static displayName = App.name;
+const App = () => {
+  // useEffect(() => {
+  //   const setToken = async () => {
+  //     console.log("app");
+  //     await setAuthToken(localStorage.getItem("token"));
+  //   };
+  //   setToken();
+  // }, []);
+  return (
+    <Routes>
+      {AppRoutes.map((route, index) => {
+        const { element, ...rest } = route;
+        console.log(rest);
+        return rest.path === "/" ? (
+          <Route key={index} {...rest} element={element} />
+        ) : (
+          <Route
+            key={index}
+            {...rest}
+            element={<RequireAuth>{element}</RequireAuth>}
+          />
+        );
+      })}
+    </Routes>
+  );
+};
 
-  render() {
-    return (
-      <Routes>
-        {AppRoutes.map((route, index) => {
-          const { element, ...rest } = route;
-          console.log(rest);
-          return rest.path === "/" ? (
-            <Route key={index} {...rest} element={element} />
-          ) : (
-            <Route
-              key={index}
-              {...rest}
-              element={<RequireAuth>{element}</RequireAuth>}
-            />
-          );
-        })}
-      </Routes>
-    );
-  }
-}
+export default App;

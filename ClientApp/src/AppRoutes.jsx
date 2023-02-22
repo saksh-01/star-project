@@ -1,5 +1,6 @@
 import NotFound from "./pages/404";
 import EmployeeDashboard from "./pages/employeeDashboard";
+import ManagerDashboard from "./pages/managerDashboard";
 import Homepage from "./pages/Homepage";
 import ManagerReview from "./pages/managerReview";
 import SignIn from "./pages/Signin";
@@ -20,7 +21,7 @@ const AppRoutes = [
   },
   {
     path: "/manager",
-    element: <Homepage />,
+    element: <ManagerDashboard />,
   },
   {
     path: "/*",

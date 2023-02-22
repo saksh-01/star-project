@@ -19,7 +19,9 @@ export const isAuthenticated = () => {
 export const setAuthToken = (token) => {
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // axios.defaults.headers.post["Content-Type"] = "application/json";
   } else delete axios.defaults.headers.common["Authorization"];
+  // console.log(axios.defaults.headers.common["Authorization"]);
 };
 
 export const logout = () => {

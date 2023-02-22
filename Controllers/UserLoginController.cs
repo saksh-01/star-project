@@ -19,7 +19,7 @@ namespace ReactNew.Controllers
         }
 
         [HttpPost]
-        public LoginResponse CheckUser(UserPass userInfo)
+        public LoginResponse CheckUSer(UserPass userInfo)
         {
             Console.WriteLine(userInfo.email);
             Console.WriteLine(userInfo.Password);
@@ -54,30 +54,4 @@ namespace ReactNew.Controllers
             };
         }
     }
-
-    // [ApiController, Authorize]
-    // [Route("api/getName")]
-    // public class GetName
-    // {
-    //     public IHttpContextAccessor _httpContextAccessor;
-
-    //     public GetName(IHttpContextAccessor _httpContext)
-    //     {
-    //         _httpContextAccessor = _httpContext;
-    //     }
-
-    //     [HttpGet]
-    //     public string GetEmail()
-    //     {
-    //         // Dictionary<string, string> dict = new Dictionary<string, string>();
-    //         GetEmailFromRequest getEmail = new GetEmailFromRequest();
-    //         var email = getEmail.GetEmail(_httpContextAccessor.HttpContext);
-    //         //var email = "shivammandloi1102@gamil.com";
-    //         // Console.WriteLine(email, "Email name");
-    //         // dict.Add("shivam", "mandloi");
-    //         // dict.Add("King", "Kohli");
-    //         // return dict;
-    //         return null;
-    //     }
-    // }
 }

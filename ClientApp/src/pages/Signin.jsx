@@ -9,7 +9,7 @@ import "./custom.css";
 const Login = () => {
   const navigate = useNavigate();
 
-  const out = logout();
+  // logout();
 
   const [registration, setRegistration] = useState({
     email: "",
@@ -69,7 +69,7 @@ const Login = () => {
       className="position-fixed h-100 w-100 "
       style={{ background: "#20262E" }}
     >
-      <div class="row row-cols-1 row-cols-md-2 h-75 mx-auto mt-5 p-0">
+      <div className="row row-cols-1 row-cols-md-2 h-75 mx-auto mt-5 p-0">
         <div className="sidelogo ps-3">
           <img
             src={Element.incedoLogoBG}
@@ -82,7 +82,7 @@ const Login = () => {
           <h6 className="tagline">WHERE INNOVATION PROPELS</h6>
         </div>
 
-        <div class="col card p-5 rounded-pill cardStyle">
+        <div className="col card p-5 rounded-pill cardStyle">
           <div className="form-card">
             <h1 style={{ color: "#EE4714" }}>SignIn</h1>
             <p>Enter your credentials to access your account</p>

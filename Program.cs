@@ -64,7 +64,11 @@ namespace JwtTokenAuthentication
             builder.Services.AddDbContext<EmpContext>(
                 x => x.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"))
             );
+            builder.Services.AddDbContext<TimeSheetContext>(
+                x => x.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"))
+            );
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<ITimeSheetServices, TimeSheetService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
@@ -105,7 +109,11 @@ namespace JwtTokenAuthentication
             app.UseRouting();
             app.UseCors(
                 builder =>
-                    builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:44488")
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins("https://localhost:44488")
+                        .AllowCredentials()
             );
 
             // Configure the HTTP request pipeline.

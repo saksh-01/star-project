@@ -1,4 +1,5 @@
-﻿using ReactNew.Models;
+﻿using System.Globalization;
+using ReactNew.Models;
 using ReactNew.ViewModel;
 
 namespace ReactNew.Services
@@ -6,25 +7,13 @@ namespace ReactNew.Services
     public class EmployeeService : IEmployeeService
     {
         private EmpContext _context;
+        public IHttpContextAccessor _httpContextAccessor;
 
-        public EmployeeService(EmpContext context)
+        public EmployeeService(EmpContext context, IHttpContextAccessor _httpContext)
         {
             _context = context;
+            _httpContextAccessor = _httpContext;
         }
-
-        // public Employee GetEmployeeByEmail(string EmailID)
-        // {
-        //     Employee emp;
-        //     try
-        //     {
-        //         emp = _context.Find<Employee>(email);
-        //     }
-        //     catch (Exception)
-        //     {
-        //         throw;
-        //     }
-        //     return emp;
-        // }
 
         public Employee GetEmployeeByEmpId(int employeeId)
         {
@@ -70,38 +59,20 @@ namespace ReactNew.Services
         public Employee GetEmployeeByEmail()
         {
             Employee emp;
-            // string email = "sb@email.com";
+            GetEmailFromRequest getEmail = new GetEmailFromRequest();
+            var email = getEmail.GetEmail(_httpContextAccessor.HttpContext);
             try
             {
-                string EmailID = "saurabh@gmail";
-                Console.WriteLine(EmailID);
-                Console.WriteLine("EmailID");
-
-                Console.WriteLine(_context.Find<Employee>(EmailID));
-
-                emp = _context.Find<Employee>(EmailID);
-                Console.WriteLine(emp);
+                emp = _context.Find<Employee>(email);
+                // Console.WriteLine(emp);
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 throw;
             }
             return emp;
         }
-
-        // public List<Employee> GetEmployeeList()
-        // {
-        //     List<Employee> empList;
-        //     try
-        //     {
-        //         empList = _context.Set<Employee>().ToList();
-        //     }
-        //     catch (Exception)
-        //     {
-        //         throw;
-        //     }
-        //     return empList;
-        // }
 
         public ResponseModel SaveEmployee(Employee employee)
         {
@@ -111,16 +82,14 @@ namespace ReactNew.Services
                 Employee _temp = GetEmployeeByEmpId(employee.EmployeeID);
                 if (_temp != null)
                 {
-                    // _temp.Id = employee.Id;
-                    // _temp.EmployeesManager = employee.EmployeesManager;
                     _temp.EmployeeName = employee.EmployeeName;
                     _temp.EmployeeID = employee.EmployeeID;
-                    // _temp.Role = employee.Role;
                     _temp.Department = employee.Department;
                     _temp.Gender = employee.Gender;
                     _temp.EmailID = employee.EmailID;
                     _temp.PhoneNumber = employee.PhoneNumber;
-                    _temp.ImageUrl = employee.ImageUrl;
+                    _temp.ImageURL = employee.ImageURL;
+
                     _temp.DOJ = employee.DOJ;
                     _temp.DOB = employee.DOB;
                     _context.Update<Employee>(_temp);

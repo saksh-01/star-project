@@ -5,6 +5,8 @@ import log from "../resource/power.svg";
 import search from "../resource/search.svg";
 import incedoLogo from "../resource/incedoLogo.jpg";
 import incedoLogoBG from "../resource/incedoLogo-bg.png";
+import user from "../resource/use.svg";
+import grid from "../resource/grid.svg";
 
 const Element = {
   empimg,
@@ -14,6 +16,8 @@ const Element = {
   search,
   incedoLogo,
   incedoLogoBG,
+  user,
+  grid,
 };
 
 export default Element;

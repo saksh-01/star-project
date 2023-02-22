@@ -15,66 +15,22 @@ namespace ReactNew.Controllers
             _employeeService = employeeService;
         }
 
-        // [HttpGet]
-        // [Route("[action]")]
-        // public IActionResult GetAllEmployees()
-        // {
-        //     try
-        //     {
-        //         var employee = _employeeService.GetEmployeeList();
-        //         if (employee == null)
-        //         {
-        //             return NotFound();
-        //         }
-        //         return Ok(employee);
-        //     }
-        //     catch (Exception)
-        //     {
-        //         return BadRequest();
-        //     }
-        // }
-
-        // [HttpGet]
-        // [Route("[action]/email")]
-        // public IActionResult GetEmployeeByEmail(string email)
-        // {
-        //     Console.WriteLine("get Employee By Email");
-        //     try
-        //     {
-        //         var employee = _employeeService.GetEmployeeByEmail(email);
-        //         Console.WriteLine(employee);
-        //         if (employee == null)
-        //         {
-        //             return NotFound();
-        //         }
-        //         Console.WriteLine("hiiiiiiiiiiiiiiiiiiiiiiiiii");
-        //         return Ok(employee);
-        //     }
-        //     catch (Exception)
-        //     {
-        //         return BadRequest();
-        //     }
-        // }
-
-
         [HttpGet]
         [Route("[action]")]
         public IActionResult GetEmployeeByEmail()
         {
-            Console.WriteLine("get employee by email");
             try
             {
-                Employee employee = _employeeService.GetEmployeeByEmail();
-                Console.WriteLine(employee);
+                var employee = _employeeService.GetEmployeeByEmail();
                 if (employee == null)
                 {
                     return NotFound();
                 }
-                Console.WriteLine("hiiiiiiiiiiiiiiiiiiiiiiiiii");
                 return Ok(employee);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return BadRequest();
             }
         }
@@ -83,7 +39,6 @@ namespace ReactNew.Controllers
         [Route("[action]/id")]
         public IActionResult GetEmployeeByEmpId(int employeeID)
         {
-            Console.WriteLine("get employee by EmployeeID");
             try
             {
                 var employee = _employeeService.GetEmployeeByEmpId(employeeID);
@@ -91,7 +46,6 @@ namespace ReactNew.Controllers
                 {
                     return NotFound();
                 }
-                Console.WriteLine("hiiiiiiiiiiiiiiiiiiiiiiiiii");
                 return Ok(employee);
             }
             catch (Exception)
