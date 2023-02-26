@@ -35,6 +35,26 @@ namespace ReactNew.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetAllTimeSheetsUnderManager()
+        {
+            try
+            {
+                var ts = _timeSheetServices.GetAllTimeSheetsUnderManager();
+                Console.WriteLine("get manager timesheet");
+                if (ts == null)
+                {
+                    return NotFound();
+                }
+                return Ok(ts);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
         [Route("[action]/emailId")]
         public IActionResult GetTimeSheetByEmailId(string emailId)
         {
@@ -74,11 +94,28 @@ namespace ReactNew.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public IActionResult SaveTimeSheet(TimeSheet timeSheet)
+        public IActionResult SaveTimeSheet(ExcelReceivedInfo timeSheet)
         {
+            Console.WriteLine("save time sheet");
             try
             {
                 var model = _timeSheetServices.SaveTimeSheet(timeSheet);
+                return Ok(model);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult updateTimeSheetStatusByManager(StatusUpdate statusUpdate)
+        {
+            Console.WriteLine(statusUpdate.StatusCode);
+            try
+            {
+                var model = _timeSheetServices.UpdateTimeSheetsByManager(statusUpdate);
                 return Ok(model);
             }
             catch (Exception)

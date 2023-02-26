@@ -61,10 +61,12 @@ namespace ReactNew.Services
             Employee emp;
             GetEmailFromRequest getEmail = new GetEmailFromRequest();
             var email = getEmail.GetEmail(_httpContextAccessor.HttpContext);
+            Console.WriteLine("get employee data");
+            Console.WriteLine(email);
             try
             {
                 emp = _context.Find<Employee>(email);
-                // Console.WriteLine(emp);
+                Console.WriteLine(emp);
             }
             catch (Exception ex)
             {
@@ -86,7 +88,7 @@ namespace ReactNew.Services
                     _temp.EmployeeID = employee.EmployeeID;
                     _temp.Department = employee.Department;
                     _temp.Gender = employee.Gender;
-                    _temp.EmailID = employee.EmailID;
+                    _temp.EmployeeEmail = employee.EmployeeEmail;
                     _temp.PhoneNumber = employee.PhoneNumber;
                     _temp.ImageURL = employee.ImageURL;
 

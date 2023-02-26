@@ -11,10 +11,14 @@ namespace ReactNew.Models
 
         [ForeignKey("Employees")]
         [StringLength(100)]
+        public int EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
         public string EmployeeEmail { get; set; }
         public string ProjectID { get; set; }
-        public int EmployeeID { get; set; }
+        public string ProjectName { get; set; }
         public int ManagerID { get; set; }
+        public string ManagerName { get; set; }
+        public string ManagerEmail { get; set; }
 
         // public string ManagerEmail { get; set; }
         public DateTime PeriodStart { get; set; }

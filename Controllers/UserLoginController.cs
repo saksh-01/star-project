@@ -26,8 +26,10 @@ namespace ReactNew.Controllers
             GetDatabase gtbase = new GetDatabase();
             UserInfoDatabase? userData;
             userData = gtbase.GetUser(userInfo);
+            Console.WriteLine(userData);
             if (userData == null)
             {
+                Console.WriteLine("null data");
                 return new LoginResponse()
                 {
                     success = false,
@@ -46,6 +48,7 @@ namespace ReactNew.Controllers
             }
             CreateToken jwtToken = new CreateToken(_configure);
             var Token = jwtToken.GetToken(userInfo);
+            Console.WriteLine(Token);
             return new LoginResponse()
             {
                 success = true,

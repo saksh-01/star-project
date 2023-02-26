@@ -1,4 +1,4 @@
-.cardStyle {
+.cust-login-card {
   position: relative;
   top: -25rem;
   left: 37rem;
@@ -9,21 +9,20 @@
   height: 57rem;
 }
 
-.cd {
-  /* border-radius: 5rem; */
+/* .cd {
   border-radius: 8rem 5rem 1rem 1rem;
   border: none;
   background: #00aa57;
-}
+} */
 
-.form-card {
+.cust-form-card {
   position: relative;
   top: 16rem;
   width: 35%;
   left: 5rem;
 }
 
-.tagline {
+.cust-tagline {
   font-size: 1.4rem;
   color: white;
   text-align: right;
@@ -31,35 +30,69 @@
   margin-top: 0.5rem;
 }
 
-.sidelogo {
+.cust-sidelogo {
   position: relative;
   top: 30%;
   width: 45%;
 }
 
-.bg-th1 {
+.cust-bg-th1 {
   background-color: var(--bs-th1);
   border: none;
 }
-.bg-th2 {
+.cust-bg-th2 {
   background-color: var(--bs-th2);
   border: none;
 }
-.text-th2 {
-  color: var(--bs-th2);
+.cust-bg-th8 {
+  background-color: var(--bs-th8);
 }
 
-.f-sd {
+.cust-text-th2 {
+  color: var(--bs-th2);
+}
+.cust-fill-th2 {
+  fill: var(--bs-th2);
+}
+
+.cust-f-sidebar {
   margin: 0;
   font-size: 0.7rem;
   color: var(--bs-th5);
 }
 
-.btn-fc-sh {
-  --bs-btn-focus-box-shadow: "none";
+.cust-f-review-card {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--bs-th2);
 }
 
-.tt .tooltiptext {
+.cust-btn {
+  border: 1px solid black;
+  color: #000;
+  --bs-btn-focus-box-shadow: "none";
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--bs-th2);
+  --bs-btn-active-border-color: var(--bs-th2);
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: var(--bs-th2);
+  --bs-btn-hover-border-color: var(--bs-th2);
+}
+
+.cust-upload-btn {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--bs-th2);
+  /* --bs-btn-border-color: #fff; */
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--bs-th2);
+  /* --bs-btn-hover-border-color: #000 !important; */
+}
+
+.cust-upload-btn:hover {
+  box-shadow: 2px 2px 17px -3px grey;
+}
+
+.cust-tooltip .cust-tooltiptext {
   visibility: hidden;
   text-align: center;
   border-radius: 0.5rem;
@@ -74,14 +107,14 @@
   z-index: 1;
 }
 
-.tt:hover .tooltiptext {
+.cust-tooltip:hover .cust-tooltiptext {
   visibility: visible;
 }
-.tt:hover .tooltiptext2 {
+.cust-tooltip:hover .cust-tooltiptext2 {
   visibility: visible;
 }
 
-.tooltiptext2 {
+.cust-tooltiptext2 {
   visibility: hidden;
   text-align: center;
   border-radius: 0.5rem;
@@ -94,4 +127,18 @@
   font-weight: 500;
   position: absolute;
   z-index: 1;
+}
+
+.cust-modal {
+  display: block !important;
+  opacity: 1 !important;
+  transition: opacity 0.15s linear, display 1s linear;
+}
+
+/* .cust-fade {
+  transition: opacity 0.15s linear, display 1s linear;
+} */
+
+.cust-shadow:hover {
+  box-shadow: 1px 1px 8px -4px !important;
 }

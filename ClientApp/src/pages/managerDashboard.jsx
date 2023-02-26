@@ -2,24 +2,47 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useHistory, useLocation } from "react-router-dom";
 import Element from "../helper/element";
 import Navbar from "../components/navbar";
+import axios from "axios";
+import "./custom.css";
 
 const Dashboard = () => {
-  //    const[record,setRecord] = useState([])
-
-  //    const getData = () =>
-  //    {
-  //        fetch('https://jsonplaceholder.typicode.com/users')
-  //        .then(resposne=> resposne.json())
-  //        .then(res=>setRecord(res))
-  //    }
-
-  //    useEffect(() => {
-  //       getData();
-  //    },)
-  const navigate = useLocation();
-  console.log(navigate.pathname);
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location.pathname);
+  const [requestsToManager, setRequestsToManager] = useState([]);
 
   console.log(window.location.pathname);
+
+  const openReviewPage = (prop) => (event) => {
+    console.log(prop.timesheetID);
+    navigate("/review", {
+      state: { prop },
+    });
+  };
+
+  useEffect(() => {
+    const getRequestsToManager = async () => {
+      await axios
+        .get(
+          "https://localhost:7101/api/TimeSheet/GetAllTimeSheetsUnderManager",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          setRequestsToManager(res.data);
+          console.log(requestsToManager);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    getRequestsToManager();
+  }, []);
 
   return (
     <>
@@ -35,10 +58,7 @@ const Dashboard = () => {
               autoComplete="off"
               defaultChecked
             />
-            <label
-              className="btn btn-outline-primary btn-sm btn-fc-sh"
-              htmlFor="btnradio1"
-            >
+            <label className="btn btn-sm cust-btn" htmlFor="btnradio1">
               This Month Requests
             </label>
 
@@ -49,10 +69,7 @@ const Dashboard = () => {
               id="btnradio2"
               autoComplete="off"
             />
-            <label
-              className="btn btn-outline-primary btn-sm btn-fc-sh"
-              htmlFor="btnradio2"
-            >
+            <label className="btn btn-sm cust-btn" htmlFor="btnradio2">
               All
             </label>
           </div>
@@ -78,143 +95,39 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="row mb-3">
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card  h-100">
-              <div className="card-body">
-                <a
-                  href="/review"
-                  style={{ textDecoration: "none", color: "black" }}
-                >
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
+        <div className="row row-cols-3 mt-3">
+          {requestsToManager?.map((e, i) => {
+            console.log(e);
+            return (
+              <div
+                className="col mb-3"
+                key={i}
+                onClick={openReviewPage(e)}
+                // onClick={() => location("review")}
+              >
+                <div className="card shadow-sm cust-shadow btn text-start bg-light border-0">
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between mb-1">
+                      <span className="badge bg-primary">{e.projectName}</span>
+                    </div>
+                    <div>
+                      <h6 className="fw-bold m-0">{e.employeeName}</h6>
+                      <p className="fw-bold m-0 cust-f-review-card">
+                        {e.employeeID}
+                      </p>
+                      {/* <span className="badge bg-primary">{e.employeeID}</span> */}
+                    </div>
+                    <div>
+                      <h6 className="fw-bold m-0">Hours</h6>
+                      <p className="fw-bold m-0 cust-f-review-card">
+                        {e.hours}
+                      </p>
+                    </div>
                   </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </a>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-xl-3 col-sm-6 py-2">
-            <div className="card text-white h-100">
-              <a
-                href="/review"
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                <div className="card-body">
-                  <div className="rotate">
-                    <i className="fa fa-user fa-4x"></i>
-                  </div>
-                  <h6>Employee</h6>
-                  <p>Location</p>
-                  <h1 className="display-4"></h1>
-                </div>
-              </a>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </>

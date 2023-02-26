@@ -7,7 +7,7 @@ namespace ReactNew.Models
     {
         [Key]
         [DataType(DataType.EmailAddress, ErrorMessage = "Enter valid email address")]
-        public string EmailID { get; set; }
+        public string EmployeeEmail { get; set; }
 
         public int EmployeeID { get; set; }
 

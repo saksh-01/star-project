@@ -11,8 +11,11 @@ namespace ReactNew.Services
 
         List<TimeSheet> GetTimeSheetByEmailId(string emailId);
 
-        ResponseModel SaveTimeSheet(TimeSheet timeSheet);
-
+        // ResponseModel SaveTimeSheet(TimeSheet timeSheet);
+        ResponseModel SaveTimeSheet(ExcelReceivedInfo timeSheet);
         ResponseModel DeleteTimeSheet(int TimeSheetId);
+        List<TimeSheet> GetAllTimeSheetsUnderManager();
+
+        ResponseModel UpdateTimeSheetsByManager(StatusUpdate statusUpdate);
     }
 }
