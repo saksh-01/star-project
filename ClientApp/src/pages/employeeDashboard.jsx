@@ -87,12 +87,12 @@ const EmployeeDashboard = () => {
     // console.log(timeSheetDetail.length);
     // setTimeSheetDetail(prop.data);
     console.log("upload excel func");
-    console.log(prop);
-    setTimeSheetDetail(prop);
+    console.log(prop[0]);
+    setTimeSheetDetail(prop[0]);
     console.log(timeSheetDetail);
     if (timeSheetDetail) {
       await axios
-        .post("https://localhost:7101/api/TimeSheet/SaveTimeSheet", prop, {
+        .post("https://localhost:7101/api/TimeSheet/SaveTimeSheet", prop[0], {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -124,11 +124,11 @@ const EmployeeDashboard = () => {
             {/* Sidebar */}
             <div className=" card col-2 vh-100 sticky-lg-top top-0 left-0 p-3 pt-4 cust-bg-th1 rounded-0">
               <div>
-                <img
+                {/* <img
                   src={Element.user}
                   className="rounded card-img-top mx-auto"
                   alt="employee"
-                />
+                /> */}
                 <div className="card-body text-white ps-0">
                   <h5 className="card-title m-0 ">{employee.employeeName}</h5>
                   <p className="fw-bold m-0" style={{ fontSize: "0.8rem" }}>
@@ -234,7 +234,6 @@ const EmployeeDashboard = () => {
                     >
                       This Month
                     </label>
-                    {/* https://teams.microsoft.com/l/meetup-join/19:ZC0XJy3G_P028MKm3jonUTHPmB4dhVI_PI-5zTOA6xQ1@thread.tacv2/1677131232218?context=%7B%22Tid%22:%22667ede8d-b2c1-4471-88e7-8874a306811e%22,%22Oid%22:%2279a7c7ae-13a9-4826-8562-87e9b5c272ca%22%7D */}
                     <input
                       type="radio"
                       className="btn-check"
@@ -247,7 +246,7 @@ const EmployeeDashboard = () => {
                     </label>
                   </div>
                   {/* Search Bar */}
-                  <div className="row col">
+                  {/* <div className="row col">
                     <div className="input-group col">
                       <span className="input-group-text" id="basic-addon1">
                         <img
@@ -265,7 +264,7 @@ const EmployeeDashboard = () => {
                         aria-describedby="basic-addon1"
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* time sheet table */}
@@ -306,10 +305,10 @@ const EmployeeDashboard = () => {
                               <span
                                 className={
                                   `${e.status}` == 1
-                                    ? "badge text-bg-success"
+                                    ? "badge text-bg-warning text-white"
                                     : `${e.status}` == 2
-                                    ? "badge text-bg-danger"
-                                    : "badge text-bg-warning text-white"
+                                    ? "badge text-bg-success"
+                                    : "badge text-bg-danger"
                                 }
                               >
                                 {e.status === 1

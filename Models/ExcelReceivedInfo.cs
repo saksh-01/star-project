@@ -8,9 +8,9 @@
 
         public string EmployeeEmail { get; set; }
 
-        public DateTime PeriodStart { get; set; }
+        public double PeriodStart { get; set; }
 
-        public DateTime PeriodEnd { get; set; }
+        public double PeriodEnd { get; set; }
 
         public float Hours { get; set; }
 

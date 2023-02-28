@@ -123,8 +123,8 @@ namespace ReactNew.Services
                         ts.EmployeeID = excelInfo.EmployeeID;
                         ts.EmployeeName = excelInfo.EmployeeName;
                         ts.EmployeeEmail = excelInfo.EmployeeEmail;
-                        ts.PeriodStart = excelInfo.PeriodStart;
-                        ts.PeriodEnd = excelInfo.PeriodEnd;
+                        ts.PeriodStart = DateTime.FromOADate(excelInfo.PeriodStart);
+                        ts.PeriodEnd = DateTime.FromOADate(excelInfo.PeriodEnd);
                         ts.Status = 1;
                         ts.Hours = excelInfo.Hours;
                         ts.ProjectName = excelInfo.ProjectName;
