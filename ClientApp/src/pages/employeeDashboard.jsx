@@ -58,9 +58,9 @@ const EmployeeDashboard = () => {
       });
   }, []);
 
-  const readExcelFile = async (e) => {
+  const readExcelFile = (e) => {
+    e.preventDefault();
     const readFile = async () => {
-      e.preventDefault();
       if (e.target.files) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -70,32 +70,33 @@ const EmployeeDashboard = () => {
           const worksheet = workbook.Sheets[sheetName];
           const json = xlsx.utils.sheet_to_json(worksheet);
           console.log(json);
-          setTimeSheetDetail(json);
-          console.log(timeSheetDetail);
+          handleExcelUpload(json);
+
+          // setTimeSheetDetail(json);
+          // console.log(timeSheetDetail);
         };
         reader.readAsArrayBuffer(e.target.files[0]);
-        // timeSheetDetail?.length ? await handleExcelUpload() : console.log("some");
       }
     };
-    await readFile();
-    handleExcelUpload();
+    readFile();
+    // console.log(timeSheetDetail.length);
+    // timeSheetDetail?.length > 0 ? handleExcelUpload() : console.log("some");
   };
-  console.log(timeSheetDetail.length);
 
-  const handleExcelUpload = async () => {
-    console.log(timeSheetDetail.length);
-
+  const handleExcelUpload = async (prop) => {
+    // console.log(timeSheetDetail.length);
+    // setTimeSheetDetail(prop.data);
+    console.log("upload excel func");
+    console.log(prop);
+    setTimeSheetDetail(prop);
+    console.log(timeSheetDetail);
     if (timeSheetDetail) {
       await axios
-        .post(
-          "https://localhost:7101/api/TimeSheet/SaveTimeSheet",
-          timeSheetDetail,
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        )
+        .post("https://localhost:7101/api/TimeSheet/SaveTimeSheet", prop, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
         .then((res) => {
           console.log(res);
           console.log("data inserted");
@@ -176,7 +177,7 @@ const EmployeeDashboard = () => {
                     <label htmlFor="fileUpload">
                       <div
                         className="btn mb-2 cust-upload-btn border-0"
-                        onClick={() => handleExcelUpload()}
+                        // onClick={() => handleExcelUpload()}
                       >
                         Upload Excel
                       </div>
