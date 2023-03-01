@@ -274,9 +274,9 @@ const EmployeeDashboard = () => {
                             <td>
                               <span
                                 className={
-                                  `${e.status}` === 1
+                                  `${e.status}` == 1
                                     ? "badge text-bg-warning text-white"
-                                    : `${e.status}` === 2
+                                    : `${e.status}` == 2
                                     ? "badge text-bg-success"
                                     : "badge text-bg-danger"
                                 }
