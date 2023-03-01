@@ -9,7 +9,6 @@ export const isAuthenticated = () => {
   let flag = false;
 
   //check user has JWT token
-  // console.log(localStorage.getItem("token"));
   flag = localStorage.getItem("token") ? true : false;
   console.log(flag);
 

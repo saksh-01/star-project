@@ -1,52 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
-import Element from "../helper/element";
 import "./custom.css";
 import axios from "axios";
 
 const ManagerReview = () => {
   const location = useLocation();
-  // const [employeeDetail, setEmployeeDetail] = useState(location.state.prop);
   const employeeDetail = location.state.prop;
   const navigate = useNavigate();
   const [style, setStyle] = useState("");
   const [msg, setMsg] = useState("");
-  const [updateStatusCode, setUpdateStatusCode] = useState(1);
-  const [updateTimeSheetID, setUpdateTimeSheetID] = useState("");
+  const [updateStatusCode, setUpdateStatusCode] = useState(1); // state to store status
+  const [updateTimeSheetID, setUpdateTimeSheetID] = useState(""); // state to store timesheetID
   const [reviewDetail, setReviewDetail] = useState({
     email: employeeDetail.employeeEmail,
     message: null,
-  });
+  }); // state to store email and message given my manager
 
   const showModal = ({ message, val }) => {
-    setStyle("cust-modal");
     setMsg(message);
-    console.log(val);
     setUpdateStatusCode(val);
     setUpdateTimeSheetID(employeeDetail.timesheetID);
-    console.log(employeeDetail.timesheetID);
-    console.log(updateStatusCode);
-    console.log(updateTimeSheetID);
-  };
-
-  const hideModal = () => {
-    setStyle("");
-  };
-
-  const handleChange = (props) => (e) => {
-    const value = e.target.value;
-    setReviewDetail({ ...reviewDetail, [props]: value });
+    if (val == 2) {
+      handleTimeSheetStatus();
+    } else if (val == -1) setStyle("");
+    else setStyle("cust-modal");
   };
 
   const handleTimeSheetStatus = async () => {
-    // if (empTimeSheetStatus.Status && empTimeSheetStatus.TimeSheetID) {
-    console.log(updateStatusCode);
-    console.log(updateTimeSheetID);
-    console.log(employeeDetail.timesheetID);
-
-    console.log(reviewDetail.message);
-    if (reviewDetail.message != null) {
+    if (reviewDetail.message != null || updateStatusCode == 2) {
       if (updateStatusCode != 1 && updateTimeSheetID) {
         await axios
           .post(
@@ -62,24 +44,15 @@ const ManagerReview = () => {
             }
           )
           .then((res) => {
-            console.log(res);
             if (res.data.isSuccess) {
-              console.log("data updated");
               navigate("/manager");
             }
-            console.log(res.data.isSuccess);
-            // navigate("/manager");
           })
           .catch((err) => {
-            console.log(err);
+            console.log("error " + err);
           });
-      } else {
-        console.log("some eror");
-        console.log(updateStatusCode);
-        console.log(updateTimeSheetID);
       }
     } else {
-      console.log("adding validation");
       const valid = document.getElementsByClassName("needs-validation")[0];
       valid.classList.add("was-validated");
     }
@@ -87,10 +60,10 @@ const ManagerReview = () => {
   return (
     <>
       <Navbar breadcrumbs={"Review"} />
-      <div className="px-5 pt-3 mb-5 ">
-        <div>
+      <div className="px-5 cust-content-padding mb-5 ">
+        {/* <div>
           <img src={Element.user} alt="user" height="120px" width="120px" />
-        </div>
+        </div> */}
 
         {/* Employee Detail */}
         <div className="d-flex fw-bold mt-3 cust-text-th2">
@@ -106,7 +79,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput1"
-              // placeholder="name@example.com"
               value={employeeDetail.employeeID}
               disabled
               readOnly
@@ -120,7 +92,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput2"
-              // placeholder="name@example.com"
               value={employeeDetail.employeeName}
               disabled
               readOnly
@@ -134,7 +105,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput3"
-              // placeholder="name@example.com"
               value={employeeDetail.employeeEmail}
               disabled
               readOnly
@@ -156,7 +126,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput4"
-              // placeholder="name@example.com"
               value={employeeDetail.timesheetID}
               disabled
               readOnly
@@ -171,7 +140,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput5"
-              // placeholder="name@example.com"
               value={employeeDetail.hours}
               disabled
               readOnly
@@ -185,7 +153,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput6"
-              // placeholder="name@example.com"
               value={new Date(employeeDetail.periodStart).toLocaleDateString(
                 "en-GB"
               )}
@@ -201,7 +168,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput7"
-              // placeholder="name@example.com"
               value={new Date(employeeDetail.periodEnd).toLocaleDateString(
                 "en-GB"
               )}
@@ -225,7 +191,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput8"
-              // placeholder="name@example.com"
               value={employeeDetail.projectID}
               disabled
               readOnly
@@ -239,7 +204,6 @@ const ManagerReview = () => {
               type="email"
               className="form-control"
               id="exampleFormControlInput9"
-              // placeholder="name@example.com"
               value={employeeDetail.projectName}
               disabled
               readOnly
@@ -247,8 +211,7 @@ const ManagerReview = () => {
           </div>
         </div>
 
-        {/* Approve & Deny Btn */}
-
+        {/* Modal to send message */}
         <div
           className={`modal ${style}`}
           id="exampleModal"
@@ -267,7 +230,9 @@ const ManagerReview = () => {
                   className="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={hideModal}
+                  onClick={() => {
+                    showModal({ message: "Close", val: -1 });
+                  }}
                 ></button>
               </div>
               <div className="modal-body">
@@ -314,7 +279,9 @@ const ManagerReview = () => {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
-                  onClick={hideModal}
+                  onClick={() => {
+                    showModal({ message: "Close", val: -1 });
+                  }}
                 >
                   Close
                 </button>
@@ -322,7 +289,6 @@ const ManagerReview = () => {
                   type="button"
                   className="btn btn-primary"
                   onClick={() => {
-                    // hideModal();
                     handleTimeSheetStatus();
                   }}
                 >
@@ -333,6 +299,7 @@ const ManagerReview = () => {
           </div>
         </div>
 
+        {/* Approve & Deny Btn */}
         <div
           className="d-flex mx-auto justify-content-between"
           style={{ width: "15%" }}

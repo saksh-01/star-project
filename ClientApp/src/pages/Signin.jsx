@@ -21,7 +21,6 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(empLoginDetails);
     const validEmail = await userEmailSchema.isValid({
       email: empLoginDetails.email,
     });
@@ -37,15 +36,13 @@ const Login = () => {
         .then((res) => {
           const token = res.data.token;
           //set JWT token to local
-          console.log(token);
           localStorage.setItem("token", token);
           //set token to axios common header
           setAuthToken(token);
           navigate("/employee");
         })
         .catch((err) => {
-          console.log(err);
-          // updateSnack("Login error, try again", "error");
+          console.log("error " + err);
         });
     } else {
       const form = document.getElementsByClassName("needs-validation")[0];
@@ -126,64 +123,3 @@ const Login = () => {
 };
 
 export default Login;
-
-{
-  /* <div className="position-fixed h-100 w-100 d-flex row">
-      <div className="bg-primary col-7">
-        <img src={Element.empimg} alt="side" />
-      </div>
-      <div
-        className="p-4 bg-white mx-auto mt-5 col-5"
-        // style={{ width: "30%" }}
-      >
-        <img
-          className="mb-5"
-          src={Element.incedoLogo}
-          alt="incedo"
-          height="60px"
-          width="180px"
-        />
-        <p>Enter your credentials to access your account</p>
-        <form
-          className="row needs-validation"
-          noValidate
-          onSubmit={handleSubmit}
-        >
-          <div className="">
-            <label htmlFor="validationCustom01" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="User email"
-              className="form-control"
-              id="validationCustom01"
-              value={empLoginDetails.email}
-              onChange={handleChange("email")}
-              autoComplete="off"
-              required
-            />
-          </div>
-          <div className="mt-3 mb-3">
-            <label htmlFor="validationCustom02" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control"
-              id="validationCustom02"
-              value={empLoginDetails.password}
-              onChange={handleChange("password")}
-              placeholder="Password"
-              required
-            />
-          </div>
-          <div className="">
-            <button className="btn btn-primary" type="submit">
-              SignIn
-            </button>
-          </div>
-        </form>
-      </div>
-    </div> */
-}

@@ -88,9 +88,6 @@ namespace ReactNew.Services
             ResponseModel response = new ResponseModel();
             GetEmailFromRequest getEmail = new GetEmailFromRequest();
             var emailid = getEmail.GetEmail(_httpContextAccessor.HttpContext);
-            Console.WriteLine(emailid);
-            Console.WriteLine("email from token");
-
             try
             {
                 if (excelInfo.EmployeeEmail == emailid)
@@ -98,8 +95,6 @@ namespace ReactNew.Services
                     var data = _Context
                         .Set<TimeSheet>()
                         .Where(_t => _t.EmployeeEmail == excelInfo.EmployeeEmail)
-                        // .Where(_t => _t.PeriodStart.Date == excelInfo.StartPeriod.Date)
-                        // .Where(_t => _t.ManagerEmail == excelInfo.ManagerEmail)
                         .Where(_t => _t.TimesheetID == excelInfo.TimesheetID)
                         .Count();
                     if (data > 0)

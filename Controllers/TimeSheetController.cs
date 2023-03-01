@@ -41,7 +41,6 @@ namespace ReactNew.Controllers
             try
             {
                 var ts = _timeSheetServices.GetAllTimeSheetsUnderManager();
-                Console.WriteLine("get manager timesheet");
                 if (ts == null)
                 {
                     return NotFound();
@@ -96,7 +95,6 @@ namespace ReactNew.Controllers
         [Route("[action]")]
         public IActionResult SaveTimeSheet(ExcelReceivedInfo timeSheet)
         {
-            Console.WriteLine("save time sheet");
             try
             {
                 var model = _timeSheetServices.SaveTimeSheet(timeSheet);
@@ -112,7 +110,6 @@ namespace ReactNew.Controllers
         [Route("[action]")]
         public IActionResult updateTimeSheetStatusByManager(StatusUpdate statusUpdate)
         {
-            Console.WriteLine(statusUpdate.StatusCode);
             try
             {
                 var model = _timeSheetServices.UpdateTimeSheetsByManager(statusUpdate);

@@ -36,6 +36,15 @@
   width: 45%;
 }
 
+.cust-sidebar-padding {
+  padding-top: 5rem;
+}
+
+.cust-content-padding {
+  padding-top: 5rem;
+  padding-left: 0;
+}
+
 .cust-bg-th1 {
   background-color: var(--bs-th1);
   border: none;

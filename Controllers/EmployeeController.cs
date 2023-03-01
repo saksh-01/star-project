@@ -30,7 +30,6 @@ namespace ReactNew.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 return BadRequest();
             }
         }

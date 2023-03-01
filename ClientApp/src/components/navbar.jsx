@@ -7,7 +7,7 @@ export const Navbar = ({ breadcrumbs }) => {
   const navigate = useNavigate();
   console.log(breadcrumbs);
   return (
-    <div className="d-flex justify-content-between px-4 cust-bg-th1 text-white py-3">
+    <div className="d-flex fixed-top justify-content-between px-4 cust-bg-th1 text-white py-3">
       <div className="fw-bold ">{breadcrumbs}</div>
       <div className="d-block text-end">
         <div

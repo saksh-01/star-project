@@ -21,15 +21,11 @@ namespace ReactNew.Controllers
         [HttpPost]
         public LoginResponse CheckUSer(UserPass userInfo)
         {
-            Console.WriteLine(userInfo.email);
-            Console.WriteLine(userInfo.Password);
             GetDatabase gtbase = new GetDatabase();
             UserInfoDatabase? userData;
             userData = gtbase.GetUser(userInfo);
-            Console.WriteLine(userData);
             if (userData == null)
             {
-                Console.WriteLine("null data");
                 return new LoginResponse()
                 {
                     success = false,
@@ -48,7 +44,6 @@ namespace ReactNew.Controllers
             }
             CreateToken jwtToken = new CreateToken(_configure);
             var Token = jwtToken.GetToken(userInfo);
-            Console.WriteLine(Token);
             return new LoginResponse()
             {
                 success = true,

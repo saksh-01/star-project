@@ -5,13 +5,8 @@ namespace ReactNew.Services
 {
     public interface IEmployeeService
     {
-        // List<Employee> GetEmployeeList();
-
         Employee GetEmployeeByEmail();
 
-        // Employee GetEmployeeByEmail(string email);
-
-        //Employee GetEmployeeById(int id);
         Employee GetEmployeeByEmpId(int employeeId);
 
         ResponseModel SaveEmployee(Employee employee);

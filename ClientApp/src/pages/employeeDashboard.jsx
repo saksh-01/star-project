@@ -1,113 +1,95 @@
 import React, { useState, useEffect } from "react";
-// import Navbar from "../components/navbar";
-import Element from "../helper/element";
-// import {
-//   EmployeeCurrentData,
-//   // EmployeePreviousData,
-// } from "../helper/employeeData";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/navbar";
 import Loader from "../components/loader";
 import "./custom.css";
-// import { setAuthToken } from "../auth/auth";
-
 import { Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 const { Dragger } = Upload;
 
 const EmployeeDashboard = () => {
-  const navigate = useNavigate();
-
-  // const [email, setEmail] = useState("");
-  const [employee, setEmployee] = useState({});
-  const [employeeTimeSheet, setEmployeeTimeSheet] = useState([]);
-  const [timeSheetDetail, setTimeSheetDetail] = useState({});
+  const [employee, setEmployee] = useState({}); //state to store employee
+  const [employeeTimeSheet, setEmployeeTimeSheet] = useState([]); //state to store employee timesheet
+  const [showSnack, setShowSnack] = useState(false); //
+  const [snackMsg, setSnackMsg] = useState(""); //
 
   useEffect(() => {
-    // setEmail();
-    axios
-      .all([
-        axios.get("https://localhost:7101/api/Employee/GetEmployeeByEmail", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }),
-        axios.get(
-          "https://localhost:7101/api/TimeSheet/GetTimeSheetByEmailId",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token"),
-            },
-          }
-        ),
-      ])
-      .then(
-        axios.spread((...res) => {
-          // Handle responses from each request
-          console.log(res);
-          setEmployee(res[0].data);
-          setEmployeeTimeSheet(res[1].data);
-          console.log(employeeTimeSheet);
-        })
-      )
-      .catch((error) => {
-        // Handle any errors that occur during the execution of the requests
-        console.log(error);
-      });
+    const getEmployeeData = async () => {
+      if (Object.keys(employee).length === 0) {
+        await axios
+          .all([
+            axios.get(
+              "https://localhost:7101/api/Employee/GetEmployeeByEmail",
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
+            ),
+            axios.get(
+              "https://localhost:7101/api/TimeSheet/GetTimeSheetByEmailId",
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
+            ),
+          ])
+          .then(
+            axios.spread((...res) => {
+              // Handle responses from each request
+              setEmployee(res[0].data);
+              setEmployeeTimeSheet(res[1].data);
+            })
+          )
+          .catch((error) => {
+            // Handle any errors that occur during the execution of the requests
+            console.log(error);
+          });
+      }
+    };
+    getEmployeeData();
   }, []);
 
   const readExcelFile = (e) => {
     e.preventDefault();
-    const readFile = async () => {
+    const readFile = () => {
       if (e.target.files) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
           const data = e.target.result;
           const workbook = xlsx.read(data, { type: "binary" });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
           const json = xlsx.utils.sheet_to_json(worksheet);
-          console.log(json);
           handleExcelUpload(json);
-
-          // setTimeSheetDetail(json);
-          // console.log(timeSheetDetail);
         };
         reader.readAsArrayBuffer(e.target.files[0]);
       }
     };
     readFile();
-    // console.log(timeSheetDetail.length);
-    // timeSheetDetail?.length > 0 ? handleExcelUpload() : console.log("some");
   };
 
   const handleExcelUpload = async (prop) => {
-    // console.log(timeSheetDetail.length);
-    // setTimeSheetDetail(prop.data);
-    console.log("upload excel func");
-    console.log(prop[0]);
-    setTimeSheetDetail(prop[0]);
-    console.log(timeSheetDetail);
-    if (timeSheetDetail) {
-      await axios
-        .post("https://localhost:7101/api/TimeSheet/SaveTimeSheet", prop[0], {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          console.log("data inserted");
-        })
-        .catch((err) => {
-          console.log("error");
-          console.log(err);
-        });
-    } else {
-      console.log("No data selected");
-    }
+    await axios
+      .post("https://localhost:7101/api/TimeSheet/SaveTimeSheet", prop[0], {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setSnackMsg(res.data);
+        setShowSnack(true);
+        setTimeout(() => {
+          setShowSnack(false);
+        }, 2000);
+        console.log("data inserted");
+      })
+      .catch((err) => {
+        console.log("error " + err);
+      });
   };
 
   return (
@@ -117,12 +99,12 @@ const EmployeeDashboard = () => {
         <Loader />
       ) : (
         <div>
+          {/* <Navbar /> */}
           <Navbar breadcrumbs={"Employee Dashboard"} />
 
-          {/* <Navbar /> */}
           <div className="row mx-0">
             {/* Sidebar */}
-            <div className=" card col-2 vh-100 sticky-lg-top top-0 left-0 p-3 pt-4 cust-bg-th1 rounded-0">
+            <div className="card col-2 vh-100 sticky-bottom top-0 left-0 ps-4 cust-sidebar-padding cust-bg-th1 rounded-0">
               <div>
                 {/* <img
                   src={Element.user}
@@ -130,7 +112,7 @@ const EmployeeDashboard = () => {
                   alt="employee"
                 /> */}
                 <div className="card-body text-white ps-0">
-                  <h5 className="card-title m-0 ">{employee.employeeName}</h5>
+                  <h2 className="card-title m-0 ">{employee.employeeName}</h2>
                   <p className="fw-bold m-0" style={{ fontSize: "0.8rem" }}>
                     {employee.employeeID}
                   </p>
@@ -147,7 +129,6 @@ const EmployeeDashboard = () => {
                   <li className="list-group-item cust-bg-th1 text-white ps-0">
                     <div className="m-0 fw-bold cust-f-sidebar">DOJ</div>
                     {new Date(employee?.doj).toLocaleDateString("en-GB")}
-                    {/* {Date(employee.doj)}{" "} */}
                   </li>
                   <li className="list-group-item cust-bg-th1 text-white ps-0">
                     <div className="m-0 fw-bold cust-f-sidebar">DOB</div>
@@ -161,24 +142,49 @@ const EmployeeDashboard = () => {
               </div>
             </div>
 
-            <div className="col-10 ps-0">
-              {/* Search Bar and Icon */}
-              {/* <div>
-                <label htmlFor="fileUpload">
-                  <div className="btn">upload</div>
-                </label>
-                <input hidden id="fileUpload" type="file" accept=".xls,.xlsx" />
-              </div> */}
-
+            <div className="col-10 cust-content-padding ">
               {/* upload excel */}
+              {console.log(snackMsg.isSuccess)}
+              {showSnack ? (
+                <div className="position-relative">
+                  <div
+                    className="position-absolute end-0 rounded-3 p-2 text-white bg-primary"
+                    style={{ zIndex: 3 }}
+                  >
+                    {snackMsg.message}
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              {/* <button
+                type="button"
+                className="btn btn-primary"
+                id="liveToastBtn"
+                onClick={console.log("click")}
+              >
+                Show live toast
+              </button>
+
+              <div className="toast-container position-fixed bottom-0 end-0 p-3 ">
+                <div
+                  id="liveToast"
+                  className="toast bg-primary"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                >
+                  <div className="toast-body">
+                    Hello, world! This is a toast message.
+                  </div>
+                </div>
+              </div> */}
               <div className="card text-center ms-3 mt-3">
-                <div className="card-body p-5">
+                <div className="card-body p-4">
                   <div>
                     <label htmlFor="fileUpload">
-                      <div
-                        className="btn mb-2 cust-upload-btn border-0"
-                        // onClick={() => handleExcelUpload()}
-                      >
+                      <div className="btn mb-2 cust-upload-btn border-0">
                         Upload Excel
                       </div>
                     </label>
@@ -201,20 +207,6 @@ const EmployeeDashboard = () => {
                   </Dragger>
                 </div>
               </div>
-
-              {/* <div className="card text-center ms-3 mt-3">
-                <div className="card-body p-4">
-                  <div
-                    className="btn mb-2 cust-upload-btn border-0"
-                    type="file"
-                  >
-                    Upload Excel
-                  </div>
-                  <p className="m-0 text-decoration-underline">
-                    OR,Drag & drop file
-                  </p>
-                </div>
-              </div> */}
 
               {/* current allowance */}
               <div className="ps-3">
@@ -245,26 +237,6 @@ const EmployeeDashboard = () => {
                       All
                     </label>
                   </div>
-                  {/* Search Bar */}
-                  {/* <div className="row col">
-                    <div className="input-group col">
-                      <span className="input-group-text" id="basic-addon1">
-                        <img
-                          src={Element.search}
-                          alt="search"
-                          height="24px"
-                          width="24px"
-                        />
-                      </span>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search"
-                        aria-label="Search"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                  </div> */}
                 </div>
 
                 {/* time sheet table */}
@@ -273,7 +245,6 @@ const EmployeeDashboard = () => {
                     <thead>
                       <tr className="cust-bg-th1 text-white">
                         <th>Timesheet ID</th>
-                        {/* <th>Employee ID</th> */}
                         <th>Hours</th>
                         <th>Period Start</th>
                         <th>Period End</th>
@@ -283,11 +254,10 @@ const EmployeeDashboard = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {employeeTimeSheet.map((e, i) => {
+                      {employeeTimeSheet.reverse().map((e, i) => {
                         return (
                           <tr key={i}>
                             <td>{e.timesheetID}</td>
-                            {/* <td>{e.employeeID}</td> */}
                             <td>{e.hours}</td>
                             <td>
                               {new Date(e.periodStart).toLocaleDateString(
@@ -304,9 +274,9 @@ const EmployeeDashboard = () => {
                             <td>
                               <span
                                 className={
-                                  `${e.status}` == 1
+                                  `${e.status}` === 1
                                     ? "badge text-bg-warning text-white"
-                                    : `${e.status}` == 2
+                                    : `${e.status}` === 2
                                     ? "badge text-bg-success"
                                     : "badge text-bg-danger"
                                 }

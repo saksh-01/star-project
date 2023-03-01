@@ -11,9 +11,6 @@ namespace ReactNew.Models
 
         public int EmployeeID { get; set; }
 
-        // [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        // public int Id { get; set; }
-
         public string EmployeeName { get; set; }
 
         public string Department { get; set; }
@@ -25,13 +22,8 @@ namespace ReactNew.Models
         [DataType(DataType.ImageUrl, ErrorMessage = "User Image")]
         public string? ImageURL { get; set; }
 
-        // [DataType(DataType.Date)]
-        // [NotMapped]
         public DateTime DOJ { get; set; }
 
         public DateTime DOB { get; set; }
-        // public string Role { get; set; }
-
-        // public string EmployeesManager { get; set; }
     }
 }

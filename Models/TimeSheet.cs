@@ -20,7 +20,6 @@ namespace ReactNew.Models
         public string ManagerName { get; set; }
         public string ManagerEmail { get; set; }
 
-        // public string ManagerEmail { get; set; }
         public DateTime PeriodStart { get; set; }
 
         public DateTime PeriodEnd { get; set; }
