@@ -31,7 +31,6 @@ const Dashboard = () => {
           setRequestsToManager(res.data);
           setFilteredEmployeeTimesheet(
             res.data.filter((e) => {
-              // console.log(e);
               return e.status == 1;
             })
           );
@@ -111,31 +110,45 @@ const Dashboard = () => {
         </div>
 
         <div className="row row-cols-3 mt-3">
-          {filterRequestsToManager.map((e, i) => {
-            return (
-              <div className="col mb-3" key={i} onClick={openReviewPage(e)}>
-                <div className="card shadow-sm cust-shadow btn text-start bg-light border-0">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between mb-1">
-                      <span className="badge bg-primary">{e.projectName}</span>
-                    </div>
-                    <div>
-                      <h6 className="fw-bold m-0">{e.employeeName}</h6>
-                      <p className="fw-bold m-0 cust-f-review-card">
-                        {e.employeeID}
-                      </p>
-                    </div>
-                    <div>
-                      <h6 className="fw-bold m-0">Hours</h6>
-                      <p className="fw-bold m-0 cust-f-review-card">
-                        {e.hours}
-                      </p>
+          {console.log(filterRequestsToManager.length)}
+          {filterRequestsToManager.length == 0 ? (
+            filterRequestsToManager.map((e, i) => {
+              return (
+                <div className="col mb-3" key={i} onClick={openReviewPage(e)}>
+                  <div className="card shadow-sm cust-shadow btn text-start bg-light border-0">
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between mb-1">
+                        <span className="badge bg-primary">
+                          {e.projectName}
+                        </span>
+                        {e.status == 2 ? (
+                          <span className="badge bg-success">APPROVED</span>
+                        ) : e.status == 0 ? (
+                          <span className="badge bg-danger">DENIED</span>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                      <div>
+                        <h6 className="fw-bold m-0">{e.employeeName}</h6>
+                        <p className="fw-bold m-0 cust-f-review-card">
+                          {e.employeeID}
+                        </p>
+                      </div>
+                      <div>
+                        <h6 className="fw-bold m-0">Hours</h6>
+                        <p className="fw-bold m-0 cust-f-review-card">
+                          {e.hours}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <h1>Not a manager</h1>
+          )}
         </div>
       </div>
     </>

@@ -4,13 +4,7 @@ import Element from "../helper/element";
 import Navbar from "../components/navbar";
 import Loader from "../components/loader";
 import "./custom.css";
-import { Upload } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
 import * as xlsx from "xlsx";
-const { Dragger } = Upload;
-
-
-
 
 const EmployeeDashboard = () => {
   const [employee, setEmployee] = useState({}); //state to store employee
@@ -123,34 +117,6 @@ const EmployeeDashboard = () => {
   };
 
   const showTimesheetBasedOnStatus = (val) => {
-    // if (event.target.value == "") {
-    //   setFilteredEmployeeTimesheet(employeeTimeSheet);
-    //   filteredEmployeeTimesheet.reverse();
-    // } else {
-    //   setFilteredEmployeeTimesheet(
-    //     employeeTimeSheet.filter((e) => {
-    //       return (
-    //         e.timesheetID.toLowerCase().includes(val) ||
-    //         // e.projectName.toLowerCase().includes(val) ||
-    //         e.managerName.toLowerCase().includes(val.toLowerCase())
-    //       );
-    //     })
-    //   );
-    // }
-    // if (searchText == "") {
-    //   setFilteredEmployeeTimesheet(employeeTimeSheet);
-    //   filteredEmployeeTimesheet.reverse();
-    // } else {
-    //   setFilteredEmployeeTimesheet(
-    //     employeeTimeSheet.filter((e) => {
-    //       return (
-    //         e.timesheetID.toLowerCase().includes(searchText) ||
-    //         e.managerName.toLowerCase().includes(searchText.toLowerCase())
-    //       );
-    //     })
-    //   );
-    // }
-
     if (val == -1) {
       setFilteredEmployeeTimesheet(employeeTimeSheet);
     } else {
@@ -160,19 +126,6 @@ const EmployeeDashboard = () => {
         })
       );
     }
-    // else if (val == "0") {
-    //   setFilteredEmployeeTimesheet(
-    //     employeeTimeSheet.filter((e) => {
-    //       return e.status == 0;
-    //     })
-    //   );
-    // } else {
-    //   setFilteredEmployeeTimesheet(
-    //     employeeTimeSheet.filter((e) => {
-    //       return e.status == 1;
-    //     })
-    //   );
-    // }
   };
 
   return (
@@ -227,7 +180,6 @@ const EmployeeDashboard = () => {
 
             <div className="col-10 cust-content-padding ">
               {/* upload excel */}
-              {/* {console.log(snackMsg.isSuccess)} */}
               {showSnack ? (
                 <div className="position-relative">
                   <div
@@ -241,28 +193,6 @@ const EmployeeDashboard = () => {
                 <></>
               )}
 
-              {/* <button
-                type="button"
-                className="btn btn-primary"
-                id="liveToastBtn"
-                onClick={console.log("click")}
-              >
-                Show live toast
-              </button>
-
-              <div className="toast-container position-fixed bottom-0 end-0 p-3 ">
-                <div
-                  id="liveToast"
-                  className="toast bg-primary"
-                  role="alert"
-                  aria-live="assertive"
-                  aria-atomic="true"
-                >
-                  <div className="toast-body">
-                    Hello, world! This is a toast message.
-                  </div>
-                </div>
-              </div> */}
               <div className="card text-center ms-3 mt-3">
                 <div className="card-body p-4">
                   <div>
@@ -279,15 +209,6 @@ const EmployeeDashboard = () => {
                       onChange={readExcelFile}
                     />
                   </div>
-                  {/* <Dragger>
-                    <p className="ant-upload-drag-icon m-0">
-                      <InboxOutlined style={{ color: "#ef4923" }} />
-                    </p>
-
-                    <p className="ant-upload-text">
-                      Click or drag file to upload
-                    </p>
-                  </Dragger> */}
                 </div>
               </div>
 

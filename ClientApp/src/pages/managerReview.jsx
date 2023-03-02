@@ -7,7 +7,6 @@ import axios from "axios";
 const ManagerReview = () => {
   const location = useLocation();
   const employeeDetail = location.state.prop;
-  // console.log(employeeDetail);
   const navigate = useNavigate();
   const [style, setStyle] = useState("");
   const [msg, setMsg] = useState("");
@@ -15,8 +14,6 @@ const ManagerReview = () => {
     TimeSheetID: "",
     StatusCode: 1,
   });
-  // const [updateStatusCode, setUpdateStatusCode] = useState(1); // state to store status
-  // const [updateTimeSheetID, setUpdateTimeSheetID] = useState(""); // state to store timesheetID
   const [reviewDetail, setReviewDetail] = useState({
     toEmail: "kushavgarg75@gmail.com",
     body: null,
@@ -31,12 +28,6 @@ const ManagerReview = () => {
       StatusCode: val,
     });
     setStyle("cust-modal");
-    // setUpdateStatusCode(val);
-    // setUpdateTimeSheetID(employeeDetail.timesheetID);
-    // if (val == 2) {
-    //   handleTimeSheetStatus();
-    // } else if (val == -1) setStyle("");
-    // else
   };
 
   const handleTimeSheetStatus = async () => {
@@ -92,10 +83,6 @@ const ManagerReview = () => {
     <>
       <Navbar breadcrumbs={"Review"} />
       <div className="px-5 cust-content-padding mb-5 ">
-        {/* <div>
-          <img src={Element.user} alt="user" height="120px" width="120px" />
-        </div> */}
-
         {/* Employee Detail */}
         <div className="d-flex fw-bold mt-3 cust-text-th2">
           Employee Detail
@@ -288,7 +275,6 @@ const ManagerReview = () => {
                           body: e.target.value,
                         });
                       }}
-                      // value={reviewDetail.body ? reviewDetail.body : ""}
                       required
                     ></textarea>
                     <div className="invalid-feedback">
