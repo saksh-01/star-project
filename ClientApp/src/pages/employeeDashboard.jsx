@@ -14,7 +14,6 @@ const EmployeeDashboard = () => {
   const [filteredEmployeeTimesheet, setFilteredEmployeeTimesheet] = useState(
     []
   );
-  // const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const getEmployeeData = async () => {
@@ -97,8 +96,6 @@ const EmployeeDashboard = () => {
 
   const handleSearch = (event) => {
     console.log(event.target.value);
-    // setSearchText(event.target.value);
-    // console.log(searchText);
     const val = event.target.value;
     if (val === "") {
       console.log("blank");
@@ -142,11 +139,6 @@ const EmployeeDashboard = () => {
             {/* Sidebar */}
             <div className="card col-2 vh-100 sticky-bottom top-0 left-0 ps-4 cust-sidebar-padding cust-bg-th1 rounded-0">
               <div>
-                {/* <img
-                  src={Element.user}
-                  className="rounded card-img-top mx-auto"
-                  alt="employee"
-                /> */}
                 <div className="card-body text-white ps-0">
                   <h2 className="card-title m-0 ">{employee.employeeName}</h2>
                   <p className="fw-bold m-0" style={{ fontSize: "0.8rem" }}>
@@ -314,19 +306,19 @@ const EmployeeDashboard = () => {
                             <td>{e.managerName}</td>
                             <td>
                               <span
-                                className={
-                                  `${e.status}` == 1
-                                    ? "badge text-bg-warning text-white"
-                                    : `${e.status}` == 2
-                                    ? "badge text-bg-success"
-                                    : "badge text-bg-danger"
-                                }
+                                className={() => {
+                                  if (e.status == 1)
+                                    "badge text-bg-warning text-white";
+                                  else if (e.status == 2)
+                                    "badge text-bg-success";
+                                  else "badge text-bg-danger";
+                                }}
                               >
-                                {e.status === 1
-                                  ? "InDraft"
-                                  : e.status === 2
-                                  ? "Approved"
-                                  : "Denied"}
+                                {() => {
+                                  if (e.status == 1) "InDraft";
+                                  else if (e.status == 2) "Approved";
+                                  else "Denied";
+                                }}
                               </span>
                             </td>
                           </tr>

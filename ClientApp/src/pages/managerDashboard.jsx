@@ -43,25 +43,11 @@ const Dashboard = () => {
   }, []);
 
   const showRequestBasedOnStatus = (val) => {
-    if (val == "1") {
-      setFilteredEmployeeTimesheet(
-        requestsToManager.filter((e) => {
-          return e.status == 1;
-        })
-      );
-    } else if (val == "2") {
-      setFilteredEmployeeTimesheet(
-        requestsToManager.filter((e) => {
-          return e.status == 2;
-        })
-      );
-    } else {
-      setFilteredEmployeeTimesheet(
-        requestsToManager.filter((e) => {
-          return e.status == 0;
-        })
-      );
-    }
+    setFilteredEmployeeTimesheet(
+      requestsToManager.filter((e) => {
+        return e.status == val;
+      })
+    );
   };
 
   return (
@@ -77,7 +63,7 @@ const Dashboard = () => {
               id="btnradio1"
               autoComplete="off"
               defaultChecked
-              onClick={() => showRequestBasedOnStatus("1")}
+              onClick={() => showRequestBasedOnStatus(1)}
             />
             <label className="btn btn-sm cust-btn" htmlFor="btnradio1">
               New Requests
@@ -89,7 +75,7 @@ const Dashboard = () => {
               name="btnradio"
               id="btnradio2"
               autoComplete="off"
-              onClick={() => showRequestBasedOnStatus("2")}
+              onClick={() => showRequestBasedOnStatus(2)}
             />
             <label className="btn btn-sm cust-btn" htmlFor="btnradio2">
               Approved
@@ -101,7 +87,7 @@ const Dashboard = () => {
               name="btnradio"
               id="btnradio4"
               autoComplete="off"
-              onClick={() => showRequestBasedOnStatus("0")}
+              onClick={() => showRequestBasedOnStatus(0)}
             />
             <label className="btn btn-sm cust-btn" htmlFor="btnradio4">
               Denied
