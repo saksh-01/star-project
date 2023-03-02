@@ -107,13 +107,17 @@ const Dashboard = () => {
                         <span className="badge bg-primary">
                           {e.projectName}
                         </span>
-                        {e.status == 2 ? (
-                          <span className="badge bg-success">APPROVED</span>
-                        ) : e.status == 0 ? (
-                          <span className="badge bg-danger">DENIED</span>
-                        ) : (
-                          <></>
-                        )}
+                        {() => {
+                          if (e.status == 20)
+                            return (
+                              <span className="badge bg-success">APPROVED</span>
+                            );
+                          else if (e.status == 0)
+                            return (
+                              <span className="badge bg-danger">DENIED</span>
+                            );
+                          else return <></>;
+                        }}
                       </div>
                       <div>
                         <h6 className="fw-bold m-0">{e.employeeName}</h6>

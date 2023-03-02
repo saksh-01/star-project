@@ -9,7 +9,6 @@ const ManagerReview = () => {
   const employeeDetail = location.state.prop;
   const navigate = useNavigate();
   const [style, setStyle] = useState("");
-  const [msg, setMsg] = useState("");
   const [updateTimesheetStatus, setUpdateTimesheetStatus] = useState({
     TimeSheetID: "",
     StatusCode: 1,
@@ -22,7 +21,6 @@ const ManagerReview = () => {
   }); // state to store email and message given my manager
 
   const showModal = ({ message, val }) => {
-    setMsg(message);
     setUpdateTimesheetStatus({
       TimeSheetID: employeeDetail.timesheetID,
       StatusCode: val,
