@@ -7,7 +7,6 @@ namespace ReactNew
         public string GetEmail(HttpContext context)
         {
             var token = GetJetTokenFRomHeader(context);
-            // Console.WriteLine(token);
             if (token == null)
             {
                 return null;

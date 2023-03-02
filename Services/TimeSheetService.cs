@@ -68,13 +68,9 @@ namespace ReactNew.Services
             List<TimeSheet> ts;
             GetEmailFromRequest getEmail = new GetEmailFromRequest();
             var myemail = getEmail.GetEmail(_httpContextAccessor.HttpContext);
-            Console.WriteLine(myemail);
             try
             {
-                ts = _Context
-                    .Set<TimeSheet>()
-                    .Where(t => t.ManagerEmail == myemail && t.Status == 1)
-                    .ToList();
+                ts = _Context.Set<TimeSheet>().Where(t => t.ManagerEmail == myemail).ToList();
             }
             catch (Exception)
             {
@@ -154,8 +150,6 @@ namespace ReactNew.Services
 
         public ResponseModel UpdateTimeSheetsByManager(StatusUpdate statusUpdate)
         {
-            Console.WriteLine(statusUpdate.TimeSheetId);
-            Console.WriteLine(statusUpdate.StatusCode);
             ResponseModel model = new ResponseModel();
             GetEmailFromRequest getEmail = new GetEmailFromRequest();
             var emailid = getEmail.GetEmail(_httpContextAccessor.HttpContext);
@@ -164,7 +158,6 @@ namespace ReactNew.Services
                 var ts = _Context.Find<TimeSheet>(statusUpdate.TimeSheetId);
                 if (ts != null && ts.ManagerEmail == emailid)
                 {
-                    Console.WriteLine(statusUpdate.StatusCode);
                     ts.Status = statusUpdate.StatusCode;
                     model.Message = "Status of Timesheet updated";
                     _Context.SaveChanges();

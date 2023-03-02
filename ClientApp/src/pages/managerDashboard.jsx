@@ -7,6 +7,7 @@ import "./custom.css";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [requestsToManager, setRequestsToManager] = useState([]);
+  const [filterRequestsToManager, setFilteredEmployeeTimesheet] = useState([]);
 
   const openReviewPage = (prop) => (event) => {
     console.log(prop.timesheetID);
@@ -28,6 +29,12 @@ const Dashboard = () => {
         )
         .then((res) => {
           setRequestsToManager(res.data);
+          setFilteredEmployeeTimesheet(
+            res.data.filter((e) => {
+              // console.log(e);
+              return e.status == 1;
+            })
+          );
         })
         .catch((err) => {
           console.log("error: " + err);
@@ -35,6 +42,28 @@ const Dashboard = () => {
     };
     getRequestsToManager();
   }, []);
+
+  const showRequestBasedOnStatus = (val) => {
+    if (val == "1") {
+      setFilteredEmployeeTimesheet(
+        requestsToManager.filter((e) => {
+          return e.status == 1;
+        })
+      );
+    } else if (val == "2") {
+      setFilteredEmployeeTimesheet(
+        requestsToManager.filter((e) => {
+          return e.status == 2;
+        })
+      );
+    } else {
+      setFilteredEmployeeTimesheet(
+        requestsToManager.filter((e) => {
+          return e.status == 0;
+        })
+      );
+    }
+  };
 
   return (
     <>
@@ -49,9 +78,10 @@ const Dashboard = () => {
               id="btnradio1"
               autoComplete="off"
               defaultChecked
+              onClick={() => showRequestBasedOnStatus("1")}
             />
             <label className="btn btn-sm cust-btn" htmlFor="btnradio1">
-              This Month Requests
+              New Requests
             </label>
 
             <input
@@ -60,15 +90,28 @@ const Dashboard = () => {
               name="btnradio"
               id="btnradio2"
               autoComplete="off"
+              onClick={() => showRequestBasedOnStatus("2")}
             />
             <label className="btn btn-sm cust-btn" htmlFor="btnradio2">
-              All
+              Approved
+            </label>
+
+            <input
+              type="radio"
+              className="btn-check"
+              name="btnradio"
+              id="btnradio4"
+              autoComplete="off"
+              onClick={() => showRequestBasedOnStatus("0")}
+            />
+            <label className="btn btn-sm cust-btn" htmlFor="btnradio4">
+              Denied
             </label>
           </div>
         </div>
 
         <div className="row row-cols-3 mt-3">
-          {requestsToManager?.map((e, i) => {
+          {filterRequestsToManager.map((e, i) => {
             return (
               <div className="col mb-3" key={i} onClick={openReviewPage(e)}>
                 <div className="card shadow-sm cust-shadow btn text-start bg-light border-0">

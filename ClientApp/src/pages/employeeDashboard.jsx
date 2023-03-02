@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Element from "../helper/element";
 import Navbar from "../components/navbar";
 import Loader from "../components/loader";
 import "./custom.css";
@@ -8,11 +9,18 @@ import { InboxOutlined } from "@ant-design/icons";
 import * as xlsx from "xlsx";
 const { Dragger } = Upload;
 
+
+
+
 const EmployeeDashboard = () => {
   const [employee, setEmployee] = useState({}); //state to store employee
   const [employeeTimeSheet, setEmployeeTimeSheet] = useState([]); //state to store employee timesheet
   const [showSnack, setShowSnack] = useState(false); //
   const [snackMsg, setSnackMsg] = useState(""); //
+  const [filteredEmployeeTimesheet, setFilteredEmployeeTimesheet] = useState(
+    []
+  );
+  // const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     const getEmployeeData = async () => {
@@ -41,6 +49,7 @@ const EmployeeDashboard = () => {
               // Handle responses from each request
               setEmployee(res[0].data);
               setEmployeeTimeSheet(res[1].data);
+              setFilteredEmployeeTimesheet(res[1].data.reverse());
             })
           )
           .catch((error) => {
@@ -90,6 +99,80 @@ const EmployeeDashboard = () => {
       .catch((err) => {
         console.log("error " + err);
       });
+  };
+
+  const handleSearch = (event) => {
+    console.log(event.target.value);
+    // setSearchText(event.target.value);
+    // console.log(searchText);
+    const val = event.target.value;
+    if (val === "") {
+      console.log("blank");
+      setFilteredEmployeeTimesheet(employeeTimeSheet);
+      filteredEmployeeTimesheet.reverse();
+    } else {
+      setFilteredEmployeeTimesheet(
+        employeeTimeSheet.filter((e) => {
+          return (
+            e.timesheetID.toLowerCase().includes(val) ||
+            e.managerName.toLowerCase().includes(val.toLowerCase())
+          );
+        })
+      );
+    }
+  };
+
+  const showTimesheetBasedOnStatus = (val) => {
+    // if (event.target.value == "") {
+    //   setFilteredEmployeeTimesheet(employeeTimeSheet);
+    //   filteredEmployeeTimesheet.reverse();
+    // } else {
+    //   setFilteredEmployeeTimesheet(
+    //     employeeTimeSheet.filter((e) => {
+    //       return (
+    //         e.timesheetID.toLowerCase().includes(val) ||
+    //         // e.projectName.toLowerCase().includes(val) ||
+    //         e.managerName.toLowerCase().includes(val.toLowerCase())
+    //       );
+    //     })
+    //   );
+    // }
+    // if (searchText == "") {
+    //   setFilteredEmployeeTimesheet(employeeTimeSheet);
+    //   filteredEmployeeTimesheet.reverse();
+    // } else {
+    //   setFilteredEmployeeTimesheet(
+    //     employeeTimeSheet.filter((e) => {
+    //       return (
+    //         e.timesheetID.toLowerCase().includes(searchText) ||
+    //         e.managerName.toLowerCase().includes(searchText.toLowerCase())
+    //       );
+    //     })
+    //   );
+    // }
+
+    if (val == -1) {
+      setFilteredEmployeeTimesheet(employeeTimeSheet);
+    } else {
+      setFilteredEmployeeTimesheet(
+        employeeTimeSheet.filter((e) => {
+          return e.status == val;
+        })
+      );
+    }
+    // else if (val == "0") {
+    //   setFilteredEmployeeTimesheet(
+    //     employeeTimeSheet.filter((e) => {
+    //       return e.status == 0;
+    //     })
+    //   );
+    // } else {
+    //   setFilteredEmployeeTimesheet(
+    //     employeeTimeSheet.filter((e) => {
+    //       return e.status == 1;
+    //     })
+    //   );
+    // }
   };
 
   return (
@@ -144,7 +227,7 @@ const EmployeeDashboard = () => {
 
             <div className="col-10 cust-content-padding ">
               {/* upload excel */}
-              {console.log(snackMsg.isSuccess)}
+              {/* {console.log(snackMsg.isSuccess)} */}
               {showSnack ? (
                 <div className="position-relative">
                   <div
@@ -196,7 +279,7 @@ const EmployeeDashboard = () => {
                       onChange={readExcelFile}
                     />
                   </div>
-                  <Dragger>
+                  {/* <Dragger>
                     <p className="ant-upload-drag-icon m-0">
                       <InboxOutlined style={{ color: "#ef4923" }} />
                     </p>
@@ -204,14 +287,14 @@ const EmployeeDashboard = () => {
                     <p className="ant-upload-text">
                       Click or drag file to upload
                     </p>
-                  </Dragger>
+                  </Dragger> */}
                 </div>
               </div>
 
               {/* current allowance */}
               <div className="ps-3">
                 <div className="hstack mt-4 mb-2">
-                  <div className="hstack gap-2 col">
+                  <div className="hstack gap-2 col-8">
                     <input
                       type="radio"
                       className="btn-check "
@@ -219,12 +302,13 @@ const EmployeeDashboard = () => {
                       id="btnradio1"
                       autoComplete="off"
                       defaultChecked
+                      onClick={() => showTimesheetBasedOnStatus(-1)}
                     />
                     <label
                       className="btn btn-outline-primary btn-sm cust-btn "
                       htmlFor="btnradio1"
                     >
-                      This Month
+                      All Requests
                     </label>
                     <input
                       type="radio"
@@ -232,10 +316,46 @@ const EmployeeDashboard = () => {
                       name="btnradio"
                       id="btnradio2"
                       autoComplete="off"
+                      onClick={() => showTimesheetBasedOnStatus(2)}
                     />
                     <label className="btn btn-sm cust-btn" htmlFor="btnradio2">
-                      All
+                      Approved
                     </label>
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="btnradio"
+                      id="btnradio3"
+                      autoComplete="off"
+                      onClick={() => showTimesheetBasedOnStatus(1)}
+                    />
+                    <label className="btn btn-sm cust-btn" htmlFor="btnradio3">
+                      InDraft
+                    </label>
+                    <input
+                      type="radio"
+                      className="btn-check"
+                      name="btnradio"
+                      id="btnradio4"
+                      autoComplete="off"
+                      onClick={() => showTimesheetBasedOnStatus(0)}
+                    />
+                    <label className="btn btn-sm cust-btn" htmlFor="btnradio4">
+                      Denied
+                    </label>
+                  </div>
+                  <div className="input-group col">
+                    <div className="input-group-text" id="btnGroupAddon">
+                      <img src={Element.search} alt="search icon" />
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search"
+                      aria-label="Input group example"
+                      aria-describedby="btnGroupAddon"
+                      onChange={handleSearch}
+                    />
                   </div>
                 </div>
 
@@ -254,7 +374,7 @@ const EmployeeDashboard = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {employeeTimeSheet.reverse().map((e, i) => {
+                      {filteredEmployeeTimesheet.map((e, i) => {
                         return (
                           <tr key={i}>
                             <td>{e.timesheetID}</td>

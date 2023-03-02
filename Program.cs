@@ -69,6 +69,8 @@ namespace JwtTokenAuthentication
             );
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<ITimeSheetServices, TimeSheetService>();
+            builder.Services.AddScoped<IEmailServices, EmailServices>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 

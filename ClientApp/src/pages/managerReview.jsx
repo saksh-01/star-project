@@ -7,50 +7,81 @@ import axios from "axios";
 const ManagerReview = () => {
   const location = useLocation();
   const employeeDetail = location.state.prop;
+  // console.log(employeeDetail);
   const navigate = useNavigate();
   const [style, setStyle] = useState("");
   const [msg, setMsg] = useState("");
-  const [updateStatusCode, setUpdateStatusCode] = useState(1); // state to store status
-  const [updateTimeSheetID, setUpdateTimeSheetID] = useState(""); // state to store timesheetID
+  const [updateTimesheetStatus, setUpdateTimesheetStatus] = useState({
+    TimeSheetID: "",
+    StatusCode: 1,
+  });
+  // const [updateStatusCode, setUpdateStatusCode] = useState(1); // state to store status
+  // const [updateTimeSheetID, setUpdateTimeSheetID] = useState(""); // state to store timesheetID
   const [reviewDetail, setReviewDetail] = useState({
-    email: employeeDetail.employeeEmail,
-    message: null,
+    toEmail: "kushavgarg75@gmail.com",
+    body: null,
+    subject: employeeDetail.timesheetID + "-Timesheet Status Updated",
+    senderName: employeeDetail.managerName,
   }); // state to store email and message given my manager
 
   const showModal = ({ message, val }) => {
     setMsg(message);
-    setUpdateStatusCode(val);
-    setUpdateTimeSheetID(employeeDetail.timesheetID);
-    if (val == 2) {
-      handleTimeSheetStatus();
-    } else if (val == -1) setStyle("");
-    else setStyle("cust-modal");
+    setUpdateTimesheetStatus({
+      TimeSheetID: employeeDetail.timesheetID,
+      StatusCode: val,
+    });
+    setStyle("cust-modal");
+    // setUpdateStatusCode(val);
+    // setUpdateTimeSheetID(employeeDetail.timesheetID);
+    // if (val == 2) {
+    //   handleTimeSheetStatus();
+    // } else if (val == -1) setStyle("");
+    // else
   };
 
   const handleTimeSheetStatus = async () => {
-    if (reviewDetail.message != null || updateStatusCode == 2) {
-      if (updateStatusCode != 1 && updateTimeSheetID) {
+    if (reviewDetail.body != null) {
+      console.log("handle request");
+      if (
+        updateTimesheetStatus.StatusCode != 1 &&
+        updateTimesheetStatus.TimeSheetID
+      ) {
         await axios
-          .post(
-            "https://localhost:7101/api/TimeSheet/updateTimeSheetStatusByManager",
-            {
-              TimeSheetID: updateTimeSheetID,
-              StatusCode: updateStatusCode,
-            },
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            }
+          .all([
+            axios.post(
+              "https://localhost:7101/api/TimeSheet/updateTimeSheetStatusByManager",
+              updateTimesheetStatus,
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
+            ),
+            axios.post(
+              "https://localhost:7101/api/Email/sendEmail",
+              reviewDetail,
+              {
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+              }
+            ),
+          ])
+
+          .then(
+            axios.spread((...res) => {
+              console.log(res);
+              if (res[0].data.isSuccess) {
+                navigate("/manager");
+              }
+            })
           )
-          .then((res) => {
-            if (res.data.isSuccess) {
-              navigate("/manager");
-            }
-          })
           .catch((err) => {
             console.log("error " + err);
           });
+      } else {
+        console.log(updateTimesheetStatus);
+        console.log("some error");
       }
     } else {
       const valid = document.getElementsByClassName("needs-validation")[0];
@@ -76,7 +107,6 @@ const ManagerReview = () => {
               Employee ID
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput1"
               value={employeeDetail.employeeID}
@@ -89,7 +119,6 @@ const ManagerReview = () => {
               Employee Name
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput2"
               value={employeeDetail.employeeName}
@@ -102,7 +131,6 @@ const ManagerReview = () => {
               Email address
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput3"
               value={employeeDetail.employeeEmail}
@@ -123,7 +151,6 @@ const ManagerReview = () => {
               TimeSheet ID
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput4"
               value={employeeDetail.timesheetID}
@@ -137,7 +164,6 @@ const ManagerReview = () => {
               Hours
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput5"
               value={employeeDetail.hours}
@@ -150,7 +176,6 @@ const ManagerReview = () => {
               Period Start
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput6"
               value={new Date(employeeDetail.periodStart).toLocaleDateString(
@@ -165,7 +190,6 @@ const ManagerReview = () => {
               Period End
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput7"
               value={new Date(employeeDetail.periodEnd).toLocaleDateString(
@@ -188,7 +212,6 @@ const ManagerReview = () => {
               Project ID
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput8"
               value={employeeDetail.projectID}
@@ -201,7 +224,6 @@ const ManagerReview = () => {
               Project Name
             </label>
             <input
-              type="email"
               className="form-control"
               id="exampleFormControlInput9"
               value={employeeDetail.projectName}
@@ -223,7 +245,8 @@ const ManagerReview = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">
-                  New message to {msg}
+                  New message to{" "}
+                  {updateTimesheetStatus.StatusCode == 2 ? "Approve" : "Deny"}
                 </h1>
                 <button
                   type="button"
@@ -231,7 +254,7 @@ const ManagerReview = () => {
                   data-bs-dismiss="modal"
                   aria-label="Close"
                   onClick={() => {
-                    showModal({ message: "Close", val: -1 });
+                    setStyle("");
                   }}
                 ></button>
               </div>
@@ -246,7 +269,7 @@ const ManagerReview = () => {
                       className="form-control"
                       id="recipient-name"
                       placeholder="@incedoinc.com"
-                      value={reviewDetail.email}
+                      value={employeeDetail.employeeEmail}
                       disabled
                       readOnly
                     />
@@ -258,18 +281,18 @@ const ManagerReview = () => {
                     <textarea
                       className="form-control"
                       id="validationTextarea"
-                      placeholder="Required example textarea"
+                      placeholder="Required message"
                       onChange={(e) => {
                         setReviewDetail({
                           ...reviewDetail,
-                          ["message"]: e.target.value,
+                          body: e.target.value,
                         });
                       }}
-                      value={reviewDetail.message ? reviewDetail.message : ""}
+                      // value={reviewDetail.body ? reviewDetail.body : ""}
                       required
                     ></textarea>
                     <div className="invalid-feedback">
-                      Please enter a message in the textarea.
+                      Please enter a message.
                     </div>
                   </div>
                 </form>
@@ -280,7 +303,7 @@ const ManagerReview = () => {
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
                   onClick={() => {
-                    showModal({ message: "Close", val: -1 });
+                    setStyle("");
                   }}
                 >
                   Close
@@ -289,6 +312,7 @@ const ManagerReview = () => {
                   type="button"
                   className="btn btn-primary"
                   onClick={() => {
+                    console.log("handle send message");
                     handleTimeSheetStatus();
                   }}
                 >
