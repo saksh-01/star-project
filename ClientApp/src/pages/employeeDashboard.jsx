@@ -315,9 +315,9 @@ const EmployeeDashboard = () => {
                                 }}
                               >
                                 {() => {
-                                  if (e.status == 1) "InDraft";
-                                  else if (e.status == 2) "Approved";
-                                  else "Denied";
+                                  if (e.status == 1) return "InDraft";
+                                  else if (e.status == 2) return "Approved";
+                                  else return "Denied";
                                 }}
                               </span>
                             </td>
