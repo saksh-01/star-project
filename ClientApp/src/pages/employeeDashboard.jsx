@@ -308,10 +308,10 @@ const EmployeeDashboard = () => {
                               <span
                                 className={() => {
                                   if (e.status == 1)
-                                    "badge text-bg-warning text-white";
+                                    return "badge text-bg-warning text-white";
                                   else if (e.status == 2)
-                                    "badge text-bg-success";
-                                  else "badge text-bg-danger";
+                                    return "badge text-bg-success";
+                                  else return "badge text-bg-danger";
                                 }}
                               >
                                 {() => {
